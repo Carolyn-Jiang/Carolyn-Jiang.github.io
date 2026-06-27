@@ -83,53 +83,149 @@ a:hover {
   padding: 3rem 1.25rem;
 }
 
-/* ---------- Home / Profile ---------- */
-.profile {
+/* ---------- Home: two-column layout ---------- */
+.home-layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 3rem;
+  align-items: start;
+}
+
+/* Main content is first in the HTML, placed visually on the right */
+.home-main {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.home-sidebar {
+  grid-column: 1;
+  grid-row: 1;
   text-align: center;
 }
 
-.profile-image {
-  width: 180px;
-  height: 180px;
+/* Sidebar */
+.profile-photo {
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   border-radius: 50%;
   border: 1px solid var(--border);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
-.name {
-  margin: 1.25rem 0 0.25rem;
-  font-size: 1.9rem;
+.sidebar-name {
+  margin: 1rem 0 0.2rem;
+  font-size: 1.3rem;
   font-weight: 600;
 }
 
-.position {
+.sidebar-position {
   margin: 0;
   color: var(--muted);
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
-.interests {
-  margin-top: 2.5rem;
-  text-align: left;
-  display: inline-block;
+.sidebar-links {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
 }
 
-.interests h2 {
-  font-size: 1.2rem;
+.sidebar-links li {
+  margin: 0.5rem 0;
+}
+
+.sidebar-links a {
+  font-size: 0.98rem;
+}
+
+/* Biography */
+.bio-section h1 {
+  margin: 0 0 0.3rem;
+  font-size: 2rem;
   font-weight: 600;
-  text-align: center;
-  margin-bottom: 0.75rem;
 }
 
-.interests ul {
+.bio-section .subtitle {
+  margin: 0 0 1.5rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.bio-section p {
+  margin: 0 0 1.1rem;
+  text-align: justify;
+}
+
+/* Education */
+.education-section {
+  margin-top: 2.5rem;
+}
+
+.education-section h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.25rem;
+}
+
+.education-item {
+  margin-bottom: 1.4rem;
+}
+
+.education-item:last-child {
+  margin-bottom: 0;
+}
+
+.education-item h3 {
+  margin: 0 0 0.2rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.education-place {
   margin: 0;
-  padding-left: 1.25rem;
-  color: var(--text);
 }
 
-.interests li {
-  margin: 0.3rem 0;
+.education-date {
+  margin: 0.1rem 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.education-detail {
+  margin: 0.2rem 0 0;
+  font-size: 0.95rem;
+}
+
+/* Home: stack on mobile, sidebar first for readability */
+@media (max-width: 800px) {
+  .home-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2rem 1.25rem;
+  }
+
+  .home-sidebar {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .home-main {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .bio-section p {
+    text-align: left;
+  }
 }
 
 /* ---------- Inner page titles ---------- */
