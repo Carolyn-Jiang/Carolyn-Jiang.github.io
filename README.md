@@ -9,7 +9,6 @@ A clean, minimal personal academic website built with plain HTML and CSS.
 ├── index.html          # Home (profile, name, position, research interests)
 ├── publications.html   # Publications
 ├── service.html        # Academic Service
-├── contact.html        # Contact
 ├── style.css           # Shared styles
 ├── assets/
 │   └── profile.jpg     # Profile photo
