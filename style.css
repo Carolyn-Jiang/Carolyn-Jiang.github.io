@@ -140,6 +140,86 @@ a:hover {
   margin: 0;
 }
 
+/* ---------- Publications ---------- */
+.publication-section {
+  margin-top: 3rem;
+}
+
+.publication-section > h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text);
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.25rem;
+}
+
+.publication-item {
+  display: flex;
+  gap: 1.25rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.publication-item:last-child {
+  border-bottom: none;
+}
+
+.publication-meta {
+  flex: 0 0 4.5rem;
+}
+
+.publication-year {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.15rem;
+}
+
+.publication-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.publication-body h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.authors {
+  margin: 0 0 0.35rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.venue {
+  margin: 0 0 0.25rem;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.links {
+  margin: 0.5rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.links a {
+  font-size: 0.85rem;
+  padding: 0.15rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--accent);
+}
+
+.links a:hover {
+  background: var(--nav-bg);
+  text-decoration: none;
+}
+
 /* ---------- Mobile ---------- */
 @media (max-width: 600px) {
   .nav-toggle-label {
@@ -183,5 +263,18 @@ a:hover {
   .profile-image {
     width: 150px;
     height: 150px;
+  }
+
+  .publication-item {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .publication-meta {
+    flex-basis: auto;
+  }
+
+  .publication-year {
+    padding-top: 0;
   }
 }
