@@ -24,6 +24,178 @@
 
   <main class="container">
     <h1 class="page-title">Academic Service</h1>
+
+    <!-- ============ Reviewer ============ -->
+    <section class="service-section">
+      <h2>Reviewer</h2>
+
+      <div class="service-group">
+        <h3 class="service-venue">
+          <a href="https://neurips.cc" target="_blank" rel="noopener noreferrer">Neural Information Processing Systems (NeurIPS)</a>
+        </h3>
+        <ul class="service-list">
+          <li>Ethics Reviewer <span class="service-years">(2024, 2025, 2026)</span></li>
+          <li>Dataset and Benchmarks Track Reviewer <span class="service-years">(2025)</span></li>
+          <li>Conference Reviewer <span class="service-years">(2026)</span></li>
+        </ul>
+      </div>
+
+      <div class="service-group">
+        <h3 class="service-venue">
+          <a href="https://aclrollingreview.org" target="_blank" rel="noopener noreferrer">ACL Rolling Review (ARR)</a>
+        </h3>
+        <ul class="service-list">
+          <li>Reviewer <span class="service-years">(October 2025, January 2026, March 2026, May 2026)</span></li>
+        </ul>
+      </div>
+
+      <div class="service-group">
+        <h3 class="service-venue">
+          <a href="https://iclr.cc" target="_blank" rel="noopener noreferrer">International Conference on Learning Representations (ICLR)</a>
+        </h3>
+        <ul class="service-list">
+          <li>LLM Agents Workshop Reviewer <span class="service-years">(2024)</span></li>
+          <li>DeLTa Workshop Reviewer <span class="service-years">(2025)</span></li>
+          <li>SCI-FM Workshop Reviewer <span class="service-years">(2025)</span></li>
+        </ul>
+      </div>
+
+      <div class="service-group">
+        <h3 class="service-venue">
+          <a href="https://icml.cc" target="_blank" rel="noopener noreferrer">International Conference on Machine Learning (ICML)</a>
+        </h3>
+        <ul class="service-list">
+          <li>FM-Wild Workshop Reviewer <span class="service-years">(2024)</span></li>
+        </ul>
+      </div>
+
+      <div class="service-group">
+        <h3 class="service-venue">ACL Advances in Language and Vision Research (ALVR)</h3>
+        <ul class="service-list">
+          <li>Workshop Reviewer <span class="service-years">(2024)</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Organization ============ -->
+    <section class="service-section">
+      <h2>Organization</h2>
+
+      <div class="service-group">
+        <h3 class="service-role">Program Chair</h3>
+        <ul class="service-list">
+          <li>The 2nd Workshop on Misinformation Detection in the Era of LLMs (MisD 2026)</li>
+        </ul>
+      </div>
+
+      <div class="service-group">
+        <h3 class="service-role">Shared Task Organizer</h3>
+        <ul class="service-list">
+          <li>Reference-Free Misinformation Detection Shared Task (MisD 2026)</li>
+          <li>FinLLM Task 3: Single Stock Trading
+            (<a href="https://www.ijcai.org" target="_blank" rel="noopener noreferrer">IJCAI 2024</a>)</li>
+          <li>Agent-based Single Cryptocurrency Trading (COLING 2025)</li>
+        </ul>
+      </div>
+
+      <div class="service-group">
+        <h3 class="service-role">Program Committee</h3>
+        <ul class="service-list">
+          <li>FinNLP-FNP-LLMFinLegal @ COLING 2025</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Invited Talks ============ -->
+    <section class="service-section">
+      <h2>Invited Talks</h2>
+
+      <div class="talk-card">
+        <div class="talk-body">
+          <h3 class="talk-title">SIG FinTech × TFAI Webinar</h3>
+          <div class="talk-meta">
+            <span class="talk-type">Invited Webinar Speaker</span>
+            <span class="talk-date">April 12, 2026</span>
+          </div>
+          <p class="links">
+            <a href="https://youtu.be/uMI8FaAJ7GQ?is=IiS1revYp7-Qf0Kt" target="_blank" rel="noopener noreferrer">Watch Video</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="talk-card">
+        <div class="talk-body">
+          <h3 class="talk-title">The Alan Turing Institute — Media in the AI Era</h3>
+          <div class="talk-meta">
+            <span class="talk-type">Invited Speaker</span>
+            <span class="talk-date">July 2, 2026</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Activity Gallery ============ -->
+    <section class="service-section">
+      <h2>Activity Gallery</h2>
+      <div class="gallery-grid">
+        <figure class="gallery-item">
+          <img src="assets/gallery/gallery-1.jpg" alt="Academic activity photo 1" class="gallery-image" loading="lazy" />
+        </figure>
+        <figure class="gallery-item">
+          <img src="assets/gallery/gallery-2.jpg" alt="Academic activity photo 2" class="gallery-image" loading="lazy" />
+        </figure>
+        <figure class="gallery-item">
+          <img src="assets/gallery/gallery-3.jpg" alt="Academic activity photo 3" class="gallery-image" loading="lazy" />
+        </figure>
+        <figure class="gallery-item">
+          <img src="assets/gallery/gallery-4.jpg" alt="Academic activity photo 4" class="gallery-image" loading="lazy" />
+        </figure>
+        <figure class="gallery-item">
+          <img src="assets/gallery/gallery-5.jpg" alt="Academic activity photo 5" class="gallery-image" loading="lazy" />
+        </figure>
+      </div>
+    </section>
   </main>
+
+  <!-- Lightbox modal -->
+  <div class="gallery-modal" id="galleryModal" aria-hidden="true">
+    <span class="gallery-modal-close" id="galleryClose" aria-label="Close">&times;</span>
+    <img class="gallery-modal-content" id="galleryModalImg" alt="Enlarged activity photo" />
+  </div>
+
+  <script>
+    (function () {
+      var modal = document.getElementById("galleryModal");
+      var modalImg = document.getElementById("galleryModalImg");
+      var closeBtn = document.getElementById("galleryClose");
+
+      function openModal(src, alt) {
+        modalImg.src = src;
+        modalImg.alt = alt || "Enlarged activity photo";
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+      }
+
+      function closeModal() {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+        modalImg.src = "";
+      }
+
+      document.querySelectorAll(".gallery-image").forEach(function (img) {
+        img.addEventListener("click", function () {
+          openModal(img.src, img.alt);
+        });
+      });
+
+      closeBtn.addEventListener("click", closeModal);
+      modal.addEventListener("click", function (e) {
+        if (e.target === modal) closeModal();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+      });
+    })();
+  </script>
 </body>
 </html>
