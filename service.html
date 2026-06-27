@@ -135,67 +135,74 @@
     </section>
 
     <!-- ============ Activity Gallery ============ -->
-    <section class="service-section">
+    <section class="service-section gallery-section">
       <h2>Activity Gallery</h2>
-      <div class="gallery-grid">
-        <figure class="gallery-item">
-          <img src="assets/gallery/gallery-1.jpg" alt="Academic activity photo 1" class="gallery-image" loading="lazy" />
+
+      <div class="masonry-gallery">
+        <figure class="masonry-item">
+          <img src="photo/1911782590406_.pic_hd.jpg" alt="Academic activity photo" loading="lazy">
         </figure>
-        <figure class="gallery-item">
-          <img src="assets/gallery/gallery-2.jpg" alt="Academic activity photo 2" class="gallery-image" loading="lazy" />
+        <figure class="masonry-item">
+          <img src="photo/1921782590442_.pic_hd.jpg" alt="Academic activity photo" loading="lazy">
         </figure>
-        <figure class="gallery-item">
-          <img src="assets/gallery/gallery-3.jpg" alt="Academic activity photo 3" class="gallery-image" loading="lazy" />
+        <figure class="masonry-item">
+          <img src="photo/1951782590489_.pic_hd.jpg" alt="Academic activity photo" loading="lazy">
         </figure>
-        <figure class="gallery-item">
-          <img src="assets/gallery/gallery-4.jpg" alt="Academic activity photo 4" class="gallery-image" loading="lazy" />
+        <figure class="masonry-item">
+          <img src="photo/1961782590491_.pic.jpg" alt="Academic activity photo" loading="lazy">
         </figure>
-        <figure class="gallery-item">
-          <img src="assets/gallery/gallery-5.jpg" alt="Academic activity photo 5" class="gallery-image" loading="lazy" />
+        <figure class="masonry-item">
+          <img src="photo/1971782590505_.pic_hd.jpg" alt="Academic activity photo" loading="lazy">
+        </figure>
+        <figure class="masonry-item">
+          <img src="photo/2021782591276_.pic_hd.jpg" alt="Academic activity photo" loading="lazy">
         </figure>
       </div>
     </section>
   </main>
 
   <!-- Lightbox modal -->
-  <div class="gallery-modal" id="galleryModal" aria-hidden="true">
-    <span class="gallery-modal-close" id="galleryClose" aria-label="Close">&times;</span>
-    <img class="gallery-modal-content" id="galleryModalImg" alt="Enlarged activity photo" />
+  <div id="galleryModal" class="gallery-modal" aria-hidden="true">
+    <button class="gallery-modal-close" aria-label="Close image">&times;</button>
+    <img id="galleryModalImage" src="" alt="Expanded academic activity photo">
   </div>
 
   <script>
-    (function () {
-      var modal = document.getElementById("galleryModal");
-      var modalImg = document.getElementById("galleryModalImg");
-      var closeBtn = document.getElementById("galleryClose");
-
-      function openModal(src, alt) {
-        modalImg.src = src;
-        modalImg.alt = alt || "Enlarged activity photo";
-        modal.classList.add("open");
-        modal.setAttribute("aria-hidden", "false");
-      }
+    document.addEventListener("DOMContentLoaded", function () {
+      const modal = document.getElementById("galleryModal");
+      const modalImage = document.getElementById("galleryModalImage");
+      const closeButton = document.querySelector(".gallery-modal-close");
+      const galleryImages = document.querySelectorAll(".masonry-item img");
 
       function closeModal() {
-        modal.classList.remove("open");
+        modal.classList.remove("active");
         modal.setAttribute("aria-hidden", "true");
-        modalImg.src = "";
+        modalImage.src = "";
       }
 
-      document.querySelectorAll(".gallery-image").forEach(function (img) {
+      galleryImages.forEach(function (img) {
         img.addEventListener("click", function () {
-          openModal(img.src, img.alt);
+          modalImage.src = img.src;
+          modalImage.alt = img.alt || "Expanded academic activity photo";
+          modal.classList.add("active");
+          modal.setAttribute("aria-hidden", "false");
         });
       });
 
-      closeBtn.addEventListener("click", closeModal);
-      modal.addEventListener("click", function (e) {
-        if (e.target === modal) closeModal();
+      closeButton.addEventListener("click", closeModal);
+
+      modal.addEventListener("click", function (event) {
+        if (event.target === modal) {
+          closeModal();
+        }
       });
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && modal.classList.contains("active")) {
+          closeModal();
+        }
       });
-    })();
+    });
   </script>
 </body>
 </html>
