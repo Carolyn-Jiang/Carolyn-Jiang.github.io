@@ -28,7 +28,7 @@
     <section class="publication-section">
       <h2>Agent Framework</h2>
 
-      <article class="publication-item js-publication-animate">
+      <article class="publication-item parallax-reveal">
         <div class="publication-meta">
           <div class="publication-year">11/2023</div>
         </div>
@@ -47,7 +47,7 @@
         </div>
       </article>
 
-      <article class="publication-item js-publication-animate">
+      <article class="publication-item parallax-reveal">
         <div class="publication-meta">
           <div class="publication-year">12/2024</div>
         </div>
@@ -61,7 +61,7 @@
         </div>
       </article>
 
-      <article class="publication-item js-publication-animate">
+      <article class="publication-item parallax-reveal">
         <div class="publication-meta">
           <div class="publication-year">02/2026</div>
         </div>
@@ -80,7 +80,7 @@
     <section class="publication-section">
       <h2>Model</h2>
 
-      <article class="publication-item js-publication-animate">
+      <article class="publication-item parallax-reveal">
         <div class="publication-meta">
           <div class="publication-year">05/2025</div>
         </div>
@@ -94,7 +94,7 @@
         </div>
       </article>
 
-      <article class="publication-item js-publication-animate">
+      <article class="publication-item parallax-reveal">
         <div class="publication-meta">
           <div class="publication-year">08/2026</div>
         </div>
@@ -107,7 +107,7 @@
         </div>
       </article>
 
-      <article class="publication-item js-publication-animate">
+      <article class="publication-item parallax-reveal">
         <div class="publication-meta">
           <div class="publication-year">07/2026</div>
         </div>
@@ -120,7 +120,7 @@
         </div>
       </article>
 
-      <article class="publication-item js-publication-animate">
+      <article class="publication-item parallax-reveal">
         <div class="publication-meta">
           <div class="publication-year">05/2026</div>
         </div>
@@ -138,7 +138,7 @@
     <section class="publication-section">
       <h2>Benchmark</h2>
 
-      <article class="publication-item js-publication-animate">
+      <article class="publication-item parallax-reveal">
         <div class="publication-meta">
           <div class="publication-year">12/2024</div>
         </div>
@@ -154,7 +154,7 @@
         </div>
       </article>
 
-      <article class="publication-item js-publication-animate">
+      <article class="publication-item parallax-reveal">
         <div class="publication-meta">
           <div class="publication-year">08/2025</div>
         </div>
@@ -169,7 +169,7 @@
         </div>
       </article>
 
-      <article class="publication-item js-publication-animate">
+      <article class="publication-item parallax-reveal">
         <div class="publication-meta">
           <div class="publication-year">07/2026</div>
         </div>
@@ -184,7 +184,7 @@
         </div>
       </article>
 
-      <article class="publication-item js-publication-animate">
+      <article class="publication-item parallax-reveal">
         <div class="publication-meta">
           <div class="publication-year">07/2026</div>
         </div>
@@ -199,7 +199,7 @@
         </div>
       </article>
 
-      <article class="publication-item js-publication-animate">
+      <article class="publication-item parallax-reveal">
         <div class="publication-meta">
           <div class="publication-year">07/2026</div>
         </div>
@@ -213,7 +213,7 @@
         </div>
       </article>
 
-      <article class="publication-item js-publication-animate">
+      <article class="publication-item parallax-reveal">
         <div class="publication-meta">
           <div class="publication-year">04/2026</div>
         </div>
@@ -227,7 +227,7 @@
         </div>
       </article>
 
-      <article class="publication-item js-publication-animate">
+      <article class="publication-item parallax-reveal">
         <div class="publication-meta">
           <div class="publication-year">05/2026</div>
         </div>
@@ -242,58 +242,65 @@
     </section>
   </main>
 
-  <!-- Scroll-triggered reveal + subtle parallax. Page is static on load; only
-       below-the-fold entries are prepared (hidden) by JS and revealed as they
-       enter the viewport. Entries are visible by default if JS does not run. -->
+  <!-- Mature scroll-triggered parallax reveal. Progressive enhancement: entries
+       are visible by default; JS prepares (hides) only below-the-fold items, then
+       reveals them via IntersectionObserver and applies scroll-linked parallax. -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const items = Array.from(document.querySelectorAll(".js-publication-animate"));
+      const items = Array.from(document.querySelectorAll(".parallax-reveal"));
 
       if (!items.length) return;
 
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduceMotion) return;
 
-      function isInitiallyVisible(element) {
-        const rect = element.getBoundingClientRect();
-        return rect.top < window.innerHeight && rect.bottom > 0;
+      const viewportHeight = window.innerHeight;
+
+      function isInitiallyVisible(el) {
+        const rect = el.getBoundingClientRect();
+        return rect.top < viewportHeight && rect.bottom > 0;
       }
 
-      // Keep initially visible entries static.
-      // Only prepare below-the-fold entries for scroll-triggered reveal.
+      /*
+        Template logic:
+        1. Keep initial viewport static.
+        2. Prepare only below-the-fold items.
+        3. Reveal prepared items when scrolling into view.
+        4. After reveal, give them scroll-linked parallax.
+      */
       items.forEach(function (item, index) {
+        item.dataset.depth = String(0.55 + (index % 4) * 0.08);
+
         if (!isInitiallyVisible(item)) {
-          item.classList.add("animation-ready");
-          item.style.setProperty("--delay", (index % 4) * 60 + "ms");
+          item.classList.add("is-prepared");
         } else {
-          item.classList.add("in-view");
+          item.classList.add("is-visible");
         }
       });
 
       const observer = new IntersectionObserver(
         function (entries, observerInstance) {
           entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.style.transitionDelay = entry.target.style.getPropertyValue("--delay") || "0ms";
-              entry.target.classList.add("in-view");
+            if (!entry.isIntersecting) return;
 
-              setTimeout(function () {
-                entry.target.classList.add("parallax-active");
-                entry.target.style.transitionDelay = "0ms";
-              }, 460);
+            entry.target.classList.add("is-visible");
+            entry.target.classList.remove("is-prepared");
 
-              observerInstance.unobserve(entry.target);
-            }
+            window.setTimeout(function () {
+              entry.target.classList.add("is-parallax");
+            }, 540);
+
+            observerInstance.unobserve(entry.target);
           });
         },
         {
-          threshold: 0.12,
-          rootMargin: "0px 0px -60px 0px"
+          threshold: 0.16,
+          rootMargin: "0px 0px -80px 0px"
         }
       );
 
       items.forEach(function (item) {
-        if (item.classList.contains("animation-ready") && !item.classList.contains("in-view")) {
+        if (!item.classList.contains("is-visible")) {
           observer.observe(item);
         }
       });
@@ -301,33 +308,34 @@
       let ticking = false;
 
       function updateParallax() {
-        const viewportHeight = window.innerHeight;
-        const viewportCenter = viewportHeight / 2;
+        const vh = window.innerHeight;
+        const center = vh / 2;
 
         items.forEach(function (item) {
-          if (!item.classList.contains("parallax-active")) return;
+          if (!item.classList.contains("is-parallax")) return;
 
           const rect = item.getBoundingClientRect();
 
-          if (rect.bottom < -100 || rect.top > viewportHeight + 100) {
+          if (rect.bottom < -120 || rect.top > vh + 120) {
             item.style.setProperty("--parallax-y", "0px");
             return;
           }
 
           const itemCenter = rect.top + rect.height / 2;
-          const distance = itemCenter - viewportCenter;
-          const normalized = distance / viewportHeight;
+          const distance = itemCenter - center;
+          const normalized = distance / vh;
+          const depth = Number(item.dataset.depth || 0.65);
 
-          const maxOffset = 10;
-          const offset = -normalized * maxOffset;
+          const maxOffset = 26;
+          const y = -normalized * maxOffset * depth;
 
-          item.style.setProperty("--parallax-y", offset.toFixed(2) + "px");
+          item.style.setProperty("--parallax-y", y.toFixed(2) + "px");
         });
 
         ticking = false;
       }
 
-      function requestTick() {
+      function requestUpdate() {
         if (!ticking) {
           window.requestAnimationFrame(updateParallax);
           ticking = true;
@@ -335,8 +343,8 @@
       }
 
       updateParallax();
-      window.addEventListener("scroll", requestTick, { passive: true });
-      window.addEventListener("resize", requestTick);
+      window.addEventListener("scroll", requestUpdate, { passive: true });
+      window.addEventListener("resize", requestUpdate);
     });
   </script>
 </body>
