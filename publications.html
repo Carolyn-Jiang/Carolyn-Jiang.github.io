@@ -294,7 +294,7 @@
         - Items below the fold are prepared for first reveal.
       */
       items.forEach(function (item, index) {
-        item.dataset.depth = String(0.75 + (index % 4) * 0.08);
+        item.dataset.depth = String(0.9 + (index % 5) * 0.12);
         item.style.setProperty("--parallax-y", "0px");
 
         if (isInitiallyVisible(item)) {
@@ -343,6 +343,7 @@
         It is reversible: scrolling up and down recalculates the offset every time.
       */
       let ticking = false;
+      let lastScrollY = window.scrollY;
 
       function updateParallax() {
         const vh = window.innerHeight;
@@ -362,7 +363,7 @@
           const normalized = (itemCenter - center) / vh;
           const depth = Number(item.dataset.depth || 0.8);
 
-          const maxOffset = 34;
+          const maxOffset = 58;
           const y = -normalized * maxOffset * depth;
 
           item.style.setProperty("--parallax-y", y.toFixed(2) + "px");
@@ -372,13 +373,20 @@
       }
 
       function requestUpdate() {
+        lastScrollY = window.scrollY;
         if (!ticking) {
           window.requestAnimationFrame(updateParallax);
           ticking = true;
         }
       }
 
-      window.addEventListener("scroll", requestUpdate, { passive: true });
+      let hasUserScrolled = false;
+
+      window.addEventListener("scroll", function () {
+        hasUserScrolled = true;
+        requestUpdate();
+      }, { passive: true });
+
       window.addEventListener("resize", requestUpdate);
 
       /*
