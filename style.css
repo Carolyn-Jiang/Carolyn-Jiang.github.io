@@ -488,45 +488,45 @@ a:hover {
   border-bottom: none;
 }
 
+/* Subtle hover polish.
+   Declared before .publication-reveal so the reveal's own transition
+   (which includes opacity + the stagger delay) wins on equal specificity. */
 .publication-item {
   transition:
+    transform 250ms ease,
     background-color 250ms ease,
     box-shadow 250ms ease;
 }
 
-/* Subtle hover response (background only — no layout/transform change here,
-   so it never fights the scroll-linked transform). */
-.publication-item:hover {
-  background-color: rgba(47, 95, 143, 0.018);
-}
-
-/* Safe scroll motion: entries are ALWAYS visible. No opacity, no hiding —
-   JS only nudges the transform a few px on scroll, reversibly. If JS never
-   runs, the transform stays a no-op and entries render normally. */
-/* Scroll-linked motion via CSS variables so the JS-driven scroll offset and
-   the CSS hover offset combine instead of overriding each other. No opacity,
-   no hiding — if JS never runs, --scroll-y stays 0 and entries render normally. */
-.publication-scroll-motion {
-  --scroll-y: 0px;
-  --hover-y: 0px;
-  transform: translate3d(0, calc(var(--scroll-y) + var(--hover-y)), 0);
-  will-change: transform;
+/* One-time scroll reveal */
+.publication-reveal {
+  opacity: 0;
+  transform: translateY(18px);
   transition:
-    box-shadow 250ms ease,
-    border-color 250ms ease,
-    background-color 250ms ease;
+    opacity 420ms ease,
+    transform 420ms ease;
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
 }
 
-.publication-scroll-motion:hover {
-  --hover-y: -1px;
+.publication-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .publication-scroll-motion {
-    --scroll-y: 0px !important;
-    --hover-y: 0px !important;
-    transform: none !important;
-  }
+/* Entries already visible on first load appear static (no entrance animation) */
+.publication-reveal.no-initial-animation {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* Hover lift — more specific than .is-visible so it wins, with its own
+   immediate transition so the stagger delay doesn't apply to hover. */
+.publication-item:hover {
+  transform: translateY(-1px);
+  transition: transform 250ms ease;
+  transition-delay: 0ms;
 }
 
 .publication-meta {
@@ -1051,7 +1051,8 @@ a:hover {
   }
 
   /* Keep reveal content visible without motion */
-  .reveal-on-scroll {
+  .reveal-on-scroll,
+  .publication-reveal {
     opacity: 1;
     transform: none;
     transition: none;
