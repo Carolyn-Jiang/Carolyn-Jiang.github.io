@@ -488,6 +488,40 @@ a:hover {
   border-bottom: none;
 }
 
+/* Subtle hover polish.
+   Declared before .publication-reveal so the reveal's own transition
+   (which includes opacity + the stagger delay) wins on equal specificity. */
+.publication-item {
+  transition:
+    transform 250ms ease,
+    background-color 250ms ease,
+    box-shadow 250ms ease;
+}
+
+/* One-time scroll reveal */
+.publication-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 420ms ease,
+    transform 420ms ease;
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.publication-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hover lift — more specific than .is-visible so it wins, with its own
+   immediate transition so the stagger delay doesn't apply to hover. */
+.publication-item:hover {
+  transform: translateY(-1px);
+  transition: transform 250ms ease;
+  transition-delay: 0ms;
+}
+
 .publication-meta {
   flex: 0 0 4.5rem;
 }
@@ -1010,7 +1044,8 @@ a:hover {
   }
 
   /* Keep reveal content visible without motion */
-  .reveal-on-scroll {
+  .reveal-on-scroll,
+  .publication-reveal {
     opacity: 1;
     transform: none;
     transition: none;
