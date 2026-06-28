@@ -477,9 +477,9 @@ a:hover {
   margin-bottom: 1.25rem;
 }
 
+/* .publication-item handles only spacing/border (never transformed), so the
+   flex columns keep a stable width before and after scrolling. */
 .publication-item {
-  display: flex;
-  gap: 1.25rem;
   padding: 1rem 0;
   border-bottom: 1px solid var(--border);
 }
@@ -488,34 +488,45 @@ a:hover {
   border-bottom: none;
 }
 
-/* Publications: mature scroll-triggered parallax reveal template.
-   Visible by default (progressive enhancement). JS only adds the hidden
-   "is-prepared" state to below-the-fold items after load, so if JS never
-   runs every entry stays fully visible. */
+/* The inner wrapper is the flex container AND the transformed parallax element.
+   It reads --parallax-y inherited from the article. */
+.publication-motion-inner {
+  display: flex;
+  gap: 1.25rem;
+  transform: translate3d(0, var(--parallax-y, 0px), 0);
+  will-change: transform;
+}
+
+/* .parallax-reveal handles only opacity reveal — no transform here. */
 .parallax-reveal {
   --parallax-y: 0px;
   opacity: 1;
-  transform: translate3d(0, var(--parallax-y), 0);
-  will-change: transform, opacity;
+  will-change: opacity;
 }
 
 /* JS adds this only after page load to items below the initial viewport */
 .parallax-reveal.is-prepared {
   opacity: 0;
-  transform: translate3d(0, 28px, 0);
+}
+
+/* Reveal offset lives on the inner wrapper, composed with --parallax-y */
+.parallax-reveal.is-prepared .publication-motion-inner {
+  transform: translate3d(0, calc(var(--parallax-y, 0px) + 28px), 0);
 }
 
 /* Triggered when the user scrolls the item into view */
 .parallax-reveal.is-visible {
   opacity: 1;
-  transform: translate3d(0, var(--parallax-y), 0);
-  transition:
-    opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* After reveal is complete, JS controls only --parallax-y */
-.parallax-reveal.is-parallax {
+.parallax-reveal.is-visible:not(.is-parallax) .publication-motion-inner {
+  transform: translate3d(0, var(--parallax-y, 0px), 0);
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* After reveal is complete, JS drives --parallax-y live (no transition) */
+.parallax-reveal.is-parallax .publication-motion-inner {
   transition: none;
 }
 
@@ -1016,7 +1027,7 @@ a:hover {
     height: 150px;
   }
 
-  .publication-item {
+  .publication-motion-inner {
     flex-direction: column;
     gap: 0.35rem;
   }
@@ -1061,6 +1072,10 @@ a:hover {
   .parallax-reveal.is-visible,
   .parallax-reveal.is-parallax {
     opacity: 1 !important;
+    transition: none !important;
+  }
+
+  .publication-motion-inner {
     transform: none !important;
     transition: none !important;
   }
