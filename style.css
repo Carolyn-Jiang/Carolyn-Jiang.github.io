@@ -488,45 +488,25 @@ a:hover {
   border-bottom: none;
 }
 
-/* Subtle hover polish.
-   Declared before .publication-reveal so the reveal's own transition
-   (which includes opacity + the stagger delay) wins on equal specificity. */
+/* Subtle hover polish (no transform transition, so the scroll-linked
+   parallax tracks the scroll directly without lag). */
 .publication-item {
   transition:
-    transform 250ms ease,
     background-color 250ms ease,
     box-shadow 250ms ease;
 }
 
-/* One-time scroll reveal */
+/* Scroll-linked parallax: content stays fully visible; JS updates --parallax
+   on every scroll so the motion is reversible (never opacity 0, never one-time). */
 .publication-reveal {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 420ms ease,
-    transform 420ms ease;
-  transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
+  transform: translateY(var(--parallax, 0px));
+  will-change: transform;
 }
 
-.publication-reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Entries already visible on first load appear static (no entrance animation) */
-.publication-reveal.no-initial-animation {
-  opacity: 1;
-  transform: none;
-  transition: none;
-}
-
-/* Hover lift — more specific than .is-visible so it wins, with its own
-   immediate transition so the stagger delay doesn't apply to hover. */
+/* Hover lift — combined with the current parallax offset so both coexist.
+   More specific than .publication-reveal, so it wins while hovering. */
 .publication-item:hover {
-  transform: translateY(-1px);
-  transition: transform 250ms ease;
-  transition-delay: 0ms;
+  transform: translateY(calc(var(--parallax, 0px) - 1px));
 }
 
 .publication-meta {

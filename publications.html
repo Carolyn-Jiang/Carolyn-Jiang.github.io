@@ -242,56 +242,58 @@
     </section>
   </main>
 
-  <!-- Scroll reveal: initially visible entries stay static; only below-the-fold entries animate in -->
+  <!-- Reversible scroll-linked parallax: each entry drifts subtly as it moves
+       through the viewport, reversing when scrolling back. Content is always
+       visible; nothing is hidden and the effect is not one-time. -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const items = document.querySelectorAll(".publication-reveal");
+      var items = Array.prototype.slice.call(
+        document.querySelectorAll(".publication-reveal")
+      );
+      if (!items.length) return;
 
-      function isInInitialViewport(element) {
-        const rect = element.getBoundingClientRect();
-        return rect.top < window.innerHeight && rect.bottom > 0;
-      }
-
-      if (!("IntersectionObserver" in window)) {
+      // Respect reduced-motion: keep entries perfectly static.
+      if (window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         items.forEach(function (item) {
-          item.classList.add("is-visible");
+          item.style.setProperty("--parallax", "0px");
         });
         return;
       }
 
-      items.forEach(function (item) {
-        if (isInInitialViewport(item)) {
-          item.classList.add("is-visible", "no-initial-animation");
+      var AMPLITUDE = 16; // total drift range in px (subtle: about +/- 8px)
+      var ticking = false;
+
+      function update() {
+        ticking = false;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        for (var i = 0; i < items.length; i++) {
+          var rect = items[i].getBoundingClientRect();
+          // Skip entries far outside the viewport for performance.
+          if (rect.bottom < -vh || rect.top > vh * 2) continue;
+          var center = rect.top + rect.height / 2;
+          // progress: 0 when the entry's center is at the bottom of the
+          // viewport, 1 when at the top.
+          var progress = (vh - center) / vh;
+          if (progress < 0) progress = 0;
+          if (progress > 1) progress = 1;
+          // Centered so mid-viewport content sits near its natural position;
+          // scrolling down drifts entries upward, scrolling up reverses it.
+          var shift = (0.5 - progress) * AMPLITUDE;
+          items[i].style.setProperty("--parallax", shift.toFixed(2) + "px");
         }
-      });
+      }
 
-      // Force layout so transition disabling applies before future scroll animations.
-      document.body.offsetHeight;
-
-      items.forEach(function (item) {
-        item.classList.remove("no-initial-animation");
-      });
-
-      const observer = new IntersectionObserver(
-        function (entries, observerInstance) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              observerInstance.unobserve(entry.target);
-            }
-          });
-        },
-        {
-          threshold: 0.12,
-          rootMargin: "0px 0px -40px 0px"
+      function onScroll() {
+        if (!ticking) {
+          ticking = true;
+          window.requestAnimationFrame(update);
         }
-      );
+      }
 
-      items.forEach(function (item) {
-        if (!item.classList.contains("is-visible")) {
-          observer.observe(item);
-        }
-      });
+      update(); // set initial positions without animating
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
     });
   </script>
 </body>
