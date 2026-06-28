@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fun Fact — Carolyn Jiang</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </label>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="publications.html">Publications</a></li>
+        <li><a href="service.html">Academic Service</a></li>
+        <li><a href="funfact.html" class="active">Fun Fact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1 class="page-title">Fun Fact</h1>
+
+    <section class="funfact-section">
+      <article class="funfact-card">
+        <p>
+          This website was built through an iterative human–AI collaboration. We started with a simple GitHub Pages skeleton, then developed each page independently by progressively adding content, refining the layout, and improving the information hierarchy. Once the static version was complete, we shifted our focus to user experience, reviewing each page to identify opportunities for improvement before introducing subtle interactions and animations one feature at a time. Throughout the process, I defined the overall design goals, page structure, and interaction requirements, supplied all research content and media, GPT-5.5 analyzed the requirements and produced detailed implementation guides based on established frontend design patterns, and Claude Code implemented the corresponding HTML, CSS, and JavaScript. Each iteration followed the same loop: <strong>design → implementation → visual inspection → refinement</strong>, gradually evolving the website from a minimal academic homepage into a polished, interactive personal website.
+        </p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

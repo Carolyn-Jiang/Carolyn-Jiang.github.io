@@ -463,6 +463,54 @@ a:hover {
   margin: 0;
 }
 
+/* ---------- Fun Fact ---------- */
+.funfact-section {
+  margin-top: 2.5rem;
+}
+
+.funfact-card {
+  padding: 1.4rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fafafa;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.045);
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease,
+    border-color 250ms ease,
+    background-color 250ms ease;
+}
+
+.funfact-card:hover {
+  transform: translateY(-1px);
+  border-color: var(--soft-blue-border);
+  box-shadow: var(--soft-shadow);
+  background-color: #ffffff;
+}
+
+.funfact-card p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.funfact-card strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .funfact-card {
+    padding: 1.15rem 1.1rem;
+  }
+
+  .funfact-card p {
+    font-size: 0.96rem;
+    line-height: 1.65;
+  }
+}
+
 /* ---------- Publications ---------- */
 .publication-section {
   margin-top: 3rem;
