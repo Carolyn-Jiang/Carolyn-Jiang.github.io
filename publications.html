@@ -242,9 +242,10 @@
     </section>
   </main>
 
-  <!-- Safe reversible scroll motion: entries are always visible (no opacity,
-       no hiding). Each entry shifts a few px as it passes through the viewport
-       and the motion reverses on scroll-up. Updates every scroll, not one-time. -->
+  <!-- Reversible scroll-linked motion. Entries are always visible (no opacity,
+       no hiding). The script only writes the --scroll-y CSS variable, which the
+       stylesheet combines with --hover-y, so scroll motion and hover coexist.
+       Updates on every scroll/resize via rAF, so it is reversible, not one-time. -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const items = Array.from(document.querySelectorAll(".publication-scroll-motion"));
@@ -253,7 +254,7 @@
 
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         items.forEach(function (item) {
-          item.style.transform = "translate3d(0, 0, 0)";
+          item.style.setProperty("--scroll-y", "0px");
         });
         return;
       }
@@ -262,24 +263,31 @@
 
       function updateScrollMotion() {
         const viewportHeight = window.innerHeight;
+        const viewportCenter = viewportHeight / 2;
 
         items.forEach(function (item) {
           const rect = item.getBoundingClientRect();
 
-          if (rect.bottom < -100 || rect.top > viewportHeight + 100) {
-            item.style.transform = "translate3d(0, 0, 0)";
+          if (rect.bottom < -150 || rect.top > viewportHeight + 150) {
+            item.style.setProperty("--scroll-y", "0px");
             return;
           }
 
           const itemCenter = rect.top + rect.height / 2;
-          const viewportCenter = viewportHeight / 2;
-          const distance = itemCenter - viewportCenter;
-          const normalized = distance / viewportHeight;
+          const distanceFromCenter = itemCenter - viewportCenter;
+          const normalized = distanceFromCenter / viewportHeight;
 
-          const maxOffset = 8;
-          const offset = -normalized * maxOffset;
+          /*
+            Stronger than the previous ±8px effect, but still restrained.
+            Items below the center sit slightly lower; items above sit slightly
+            higher. A small per-entry depth factor adds gentle parallax variety.
+            Updates continuously and reverses naturally on scroll-up.
+          */
+          const maxOffset = 22;
+          const depth = 0.85 + (items.indexOf(item) % 3) * 0.08;
+          const offset = -normalized * maxOffset * depth;
 
-          item.style.transform = "translate3d(0, " + offset.toFixed(2) + "px, 0)";
+          item.style.setProperty("--scroll-y", offset.toFixed(2) + "px");
         });
 
         ticking = false;
