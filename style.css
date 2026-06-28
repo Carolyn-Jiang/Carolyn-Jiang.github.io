@@ -503,9 +503,6 @@ a:hover {
     border-color 250ms ease;
 }
 
-.publication-scroll-motion:hover {
-  --hover-y: -1px;
-}
 
 .publication-meta {
   flex: 0 0 4.5rem;
