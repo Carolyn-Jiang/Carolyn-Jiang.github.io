@@ -28,7 +28,7 @@
     <section class="publication-section">
       <h2>Agent Framework</h2>
 
-      <article class="publication-item publication-scroll-motion">
+      <article class="publication-item js-publication-animate">
         <div class="publication-meta">
           <div class="publication-year">11/2023</div>
         </div>
@@ -47,7 +47,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-scroll-motion">
+      <article class="publication-item js-publication-animate">
         <div class="publication-meta">
           <div class="publication-year">12/2024</div>
         </div>
@@ -61,7 +61,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-scroll-motion">
+      <article class="publication-item js-publication-animate">
         <div class="publication-meta">
           <div class="publication-year">02/2026</div>
         </div>
@@ -80,7 +80,7 @@
     <section class="publication-section">
       <h2>Model</h2>
 
-      <article class="publication-item publication-scroll-motion">
+      <article class="publication-item js-publication-animate">
         <div class="publication-meta">
           <div class="publication-year">05/2025</div>
         </div>
@@ -94,7 +94,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-scroll-motion">
+      <article class="publication-item js-publication-animate">
         <div class="publication-meta">
           <div class="publication-year">08/2026</div>
         </div>
@@ -107,7 +107,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-scroll-motion">
+      <article class="publication-item js-publication-animate">
         <div class="publication-meta">
           <div class="publication-year">07/2026</div>
         </div>
@@ -120,7 +120,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-scroll-motion">
+      <article class="publication-item js-publication-animate">
         <div class="publication-meta">
           <div class="publication-year">05/2026</div>
         </div>
@@ -138,7 +138,7 @@
     <section class="publication-section">
       <h2>Benchmark</h2>
 
-      <article class="publication-item publication-scroll-motion">
+      <article class="publication-item js-publication-animate">
         <div class="publication-meta">
           <div class="publication-year">12/2024</div>
         </div>
@@ -154,7 +154,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-scroll-motion">
+      <article class="publication-item js-publication-animate">
         <div class="publication-meta">
           <div class="publication-year">08/2025</div>
         </div>
@@ -169,7 +169,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-scroll-motion">
+      <article class="publication-item js-publication-animate">
         <div class="publication-meta">
           <div class="publication-year">07/2026</div>
         </div>
@@ -184,7 +184,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-scroll-motion">
+      <article class="publication-item js-publication-animate">
         <div class="publication-meta">
           <div class="publication-year">07/2026</div>
         </div>
@@ -199,7 +199,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-scroll-motion">
+      <article class="publication-item js-publication-animate">
         <div class="publication-meta">
           <div class="publication-year">07/2026</div>
         </div>
@@ -213,7 +213,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-scroll-motion">
+      <article class="publication-item js-publication-animate">
         <div class="publication-meta">
           <div class="publication-year">04/2026</div>
         </div>
@@ -227,7 +227,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-scroll-motion">
+      <article class="publication-item js-publication-animate">
         <div class="publication-meta">
           <div class="publication-year">05/2026</div>
         </div>
@@ -242,60 +242,101 @@
     </section>
   </main>
 
-  <!-- Reversible scroll-linked motion. Entries are always visible; the script
-       only writes the --scroll-y CSS variable (combined with --hover-y in CSS),
-       updated on every scroll/resize via rAF. No opacity, no one-time reveal. -->
+  <!-- Scroll-triggered reveal + subtle parallax. Page is static on load; only
+       below-the-fold entries are prepared (hidden) by JS and revealed as they
+       enter the viewport. Entries are visible by default if JS does not run. -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const items = Array.from(document.querySelectorAll(".publication-scroll-motion"));
+      const items = Array.from(document.querySelectorAll(".js-publication-animate"));
 
       if (!items.length) return;
 
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        items.forEach(function (item) {
-          item.style.setProperty("--scroll-y", "0px");
-        });
-        return;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduceMotion) return;
+
+      function isInitiallyVisible(element) {
+        const rect = element.getBoundingClientRect();
+        return rect.top < window.innerHeight && rect.bottom > 0;
       }
+
+      // Keep initially visible entries static.
+      // Only prepare below-the-fold entries for scroll-triggered reveal.
+      items.forEach(function (item, index) {
+        if (!isInitiallyVisible(item)) {
+          item.classList.add("animation-ready");
+          item.style.setProperty("--delay", (index % 4) * 60 + "ms");
+        } else {
+          item.classList.add("in-view");
+        }
+      });
+
+      const observer = new IntersectionObserver(
+        function (entries, observerInstance) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.style.transitionDelay = entry.target.style.getPropertyValue("--delay") || "0ms";
+              entry.target.classList.add("in-view");
+
+              setTimeout(function () {
+                entry.target.classList.add("parallax-active");
+                entry.target.style.transitionDelay = "0ms";
+              }, 460);
+
+              observerInstance.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.12,
+          rootMargin: "0px 0px -60px 0px"
+        }
+      );
+
+      items.forEach(function (item) {
+        if (item.classList.contains("animation-ready") && !item.classList.contains("in-view")) {
+          observer.observe(item);
+        }
+      });
 
       let ticking = false;
 
-      function updateScrollMotion() {
+      function updateParallax() {
         const viewportHeight = window.innerHeight;
         const viewportCenter = viewportHeight / 2;
 
-        items.forEach(function (item, index) {
+        items.forEach(function (item) {
+          if (!item.classList.contains("parallax-active")) return;
+
           const rect = item.getBoundingClientRect();
 
-          if (rect.bottom < -150 || rect.top > viewportHeight + 150) {
-            item.style.setProperty("--scroll-y", "0px");
+          if (rect.bottom < -100 || rect.top > viewportHeight + 100) {
+            item.style.setProperty("--parallax-y", "0px");
             return;
           }
 
           const itemCenter = rect.top + rect.height / 2;
-          const distanceFromCenter = itemCenter - viewportCenter;
-          const normalized = distanceFromCenter / viewportHeight;
+          const distance = itemCenter - viewportCenter;
+          const normalized = distance / viewportHeight;
 
-          const maxOffset = 22;
-          const depth = 0.92 + (index % 3) * 0.04;
-          const offset = -normalized * maxOffset * depth;
+          const maxOffset = 10;
+          const offset = -normalized * maxOffset;
 
-          item.style.setProperty("--scroll-y", offset.toFixed(2) + "px");
+          item.style.setProperty("--parallax-y", offset.toFixed(2) + "px");
         });
 
         ticking = false;
       }
 
-      function requestUpdate() {
+      function requestTick() {
         if (!ticking) {
-          window.requestAnimationFrame(updateScrollMotion);
+          window.requestAnimationFrame(updateParallax);
           ticking = true;
         }
       }
 
-      updateScrollMotion();
-      window.addEventListener("scroll", requestUpdate, { passive: true });
-      window.addEventListener("resize", requestUpdate);
+      updateParallax();
+      window.addEventListener("scroll", requestTick, { passive: true });
+      window.addEventListener("resize", requestTick);
     });
   </script>
 </body>

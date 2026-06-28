@@ -488,19 +488,31 @@ a:hover {
   border-bottom: none;
 }
 
-/* Reversible scroll-linked motion. Entries are ALWAYS visible (no opacity,
-   no hiding). JS writes the --scroll-y variable on every scroll; CSS combines
-   it with --hover-y so scroll motion and hover coexist. If JS never runs,
-   --scroll-y stays 0 and entries render at their normal position. */
-.publication-scroll-motion {
-  --scroll-y: 0px;
-  --hover-y: 0px;
-  transform: translate3d(0, calc(var(--scroll-y) + var(--hover-y)), 0);
-  will-change: transform;
+/* Scroll-triggered reveal + subtle parallax. Entries are visible by default;
+   JS only adds the hidden "animation-ready" state to below-the-fold items after
+   load, so if JS never runs every entry stays fully visible. */
+.js-publication-animate {
+  transform: translate3d(0, 0, 0);
+}
+
+/* JS adds this only to items below the initial viewport */
+.js-publication-animate.animation-ready {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+}
+
+/* When the item enters the viewport */
+.js-publication-animate.animation-ready.in-view {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
   transition:
-    background-color 250ms ease,
-    box-shadow 250ms ease,
-    border-color 250ms ease;
+    opacity 420ms ease,
+    transform 420ms ease;
+}
+
+/* Subtle parallax-follow once the entry is visible */
+.js-publication-animate.in-view.parallax-active {
+  transform: translate3d(0, var(--parallax-y, 0px), 0);
 }
 
 
@@ -1032,10 +1044,13 @@ a:hover {
     transition: none;
   }
 
-  .publication-scroll-motion {
-    --scroll-y: 0px !important;
-    --hover-y: 0px !important;
+  .js-publication-animate,
+  .js-publication-animate.animation-ready,
+  .js-publication-animate.animation-ready.in-view,
+  .js-publication-animate.in-view.parallax-active {
+    opacity: 1 !important;
     transform: none !important;
+    transition: none !important;
   }
 
   .masonry-item img,
