@@ -242,10 +242,15 @@
     </section>
   </main>
 
-  <!-- One-time scroll reveal for publication entries -->
+  <!-- Scroll reveal: initially visible entries stay static; only below-the-fold entries animate in -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const items = document.querySelectorAll(".publication-reveal");
+
+      function isInInitialViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return rect.top < window.innerHeight && rect.bottom > 0;
+      }
 
       if (!("IntersectionObserver" in window)) {
         items.forEach(function (item) {
@@ -253,6 +258,19 @@
         });
         return;
       }
+
+      items.forEach(function (item) {
+        if (isInInitialViewport(item)) {
+          item.classList.add("is-visible", "no-initial-animation");
+        }
+      });
+
+      // Force layout so transition disabling applies before future scroll animations.
+      document.body.offsetHeight;
+
+      items.forEach(function (item) {
+        item.classList.remove("no-initial-animation");
+      });
 
       const observer = new IntersectionObserver(
         function (entries, observerInstance) {
@@ -270,7 +288,9 @@
       );
 
       items.forEach(function (item) {
-        observer.observe(item);
+        if (!item.classList.contains("is-visible")) {
+          observer.observe(item);
+        }
       });
     });
   </script>

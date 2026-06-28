@@ -28,9 +28,9 @@
     <section class="timeline-section" aria-label="Academic service timeline">
       <div class="timeline">
 
-        <div class="timeline-year reveal-on-scroll">2026</div>
+        <div class="timeline-year">2026</div>
 
-        <article class="timeline-item timeline-left reveal-on-scroll">
+        <article class="timeline-item timeline-left">
           <div class="timeline-card">
             <span class="timeline-type">Program Chair</span>
             <h3>The 2nd Workshop on Misinformation Detection in the Era of LLMs</h3>
@@ -38,7 +38,7 @@
           </div>
         </article>
 
-        <article class="timeline-item timeline-right reveal-on-scroll">
+        <article class="timeline-item timeline-right">
           <div class="timeline-card">
             <span class="timeline-type">Shared Task Organizer</span>
             <h3>Reference-Free Misinformation Detection Shared Task</h3>
@@ -46,7 +46,7 @@
           </div>
         </article>
 
-        <article class="timeline-item timeline-left reveal-on-scroll">
+        <article class="timeline-item timeline-left">
           <div class="timeline-card">
             <span class="timeline-type">Reviewer</span>
             <h3>NeurIPS and ACL Rolling Review</h3>
@@ -58,7 +58,7 @@
           </div>
         </article>
 
-        <article class="timeline-item timeline-right reveal-on-scroll">
+        <article class="timeline-item timeline-right">
           <div class="timeline-card">
             <span class="timeline-type">Invited Webinar Speaker</span>
             <h3>The Alan Turing Institute — Media in the AI Era</h3>
@@ -66,7 +66,7 @@
           </div>
         </article>
 
-        <article class="timeline-item timeline-left reveal-on-scroll">
+        <article class="timeline-item timeline-left">
           <div class="timeline-card">
             <span class="timeline-type">Invited Webinar Speaker</span>
             <h3>SIG FinTech × TFAI Webinar</h3>
@@ -77,9 +77,9 @@
           </div>
         </article>
 
-        <div class="timeline-year reveal-on-scroll">2025</div>
+        <div class="timeline-year">2025</div>
 
-        <article class="timeline-item timeline-right reveal-on-scroll">
+        <article class="timeline-item timeline-right">
           <div class="timeline-card">
             <span class="timeline-type">Reviewer</span>
             <h3>NeurIPS and ACL Rolling Review</h3>
@@ -91,7 +91,7 @@
           </div>
         </article>
 
-        <article class="timeline-item timeline-left reveal-on-scroll">
+        <article class="timeline-item timeline-left">
           <div class="timeline-card">
             <span class="timeline-type">Workshop Reviewer</span>
             <h3>ICLR Workshops</h3>
@@ -102,14 +102,14 @@
           </div>
         </article>
 
-        <article class="timeline-item timeline-right reveal-on-scroll">
+        <article class="timeline-item timeline-right">
           <div class="timeline-card">
             <span class="timeline-type">Program Committee</span>
             <h3>FinNLP-FNP-LLMFinLegal @ COLING 2025</h3>
           </div>
         </article>
 
-        <article class="timeline-item timeline-left reveal-on-scroll">
+        <article class="timeline-item timeline-left">
           <div class="timeline-card">
             <span class="timeline-type">Shared Task Organizer</span>
             <h3>Agent-based Single Cryptocurrency Trading</h3>
@@ -117,23 +117,23 @@
           </div>
         </article>
 
-        <div class="timeline-year reveal-on-scroll">2024</div>
+        <div class="timeline-year">2024</div>
 
-        <article class="timeline-item timeline-right reveal-on-scroll">
+        <article class="timeline-item timeline-right">
           <div class="timeline-card">
             <span class="timeline-type">Ethics Reviewer</span>
             <h3>NeurIPS 2024</h3>
           </div>
         </article>
 
-        <article class="timeline-item timeline-left reveal-on-scroll">
+        <article class="timeline-item timeline-left">
           <div class="timeline-card">
             <span class="timeline-type">Volunteer</span>
             <h3>NeurIPS 2024</h3>
           </div>
         </article>
 
-        <article class="timeline-item timeline-right reveal-on-scroll">
+        <article class="timeline-item timeline-right">
           <div class="timeline-card">
             <span class="timeline-type">Shared Task Co-Organizer</span>
             <h3>FinLLM Task 3: Single Stock Trading</h3>
@@ -141,7 +141,7 @@
           </div>
         </article>
 
-        <article class="timeline-item timeline-left reveal-on-scroll">
+        <article class="timeline-item timeline-left">
           <div class="timeline-card">
             <span class="timeline-type">Workshop Reviewer</span>
             <h3>ICLR, ICML, and ACL Workshops</h3>
@@ -161,58 +161,26 @@
       <h2>Activity Gallery</h2>
 
       <div class="masonry-gallery">
-        <figure class="masonry-item reveal-on-scroll">
+        <figure class="masonry-item">
           <img src="photo/1911782590406_.pic_hd.jpg" alt="Academic activity photo" loading="lazy">
         </figure>
-        <figure class="masonry-item reveal-on-scroll">
+        <figure class="masonry-item">
           <img src="photo/1921782590442_.pic_hd.jpg" alt="Academic activity photo" loading="lazy">
         </figure>
-        <figure class="masonry-item reveal-on-scroll">
+        <figure class="masonry-item">
           <img src="photo/1951782590489_.pic_hd.jpg" alt="Academic activity photo" loading="lazy">
         </figure>
-        <figure class="masonry-item reveal-on-scroll">
+        <figure class="masonry-item">
           <img src="photo/1961782590491_.pic.jpg" alt="Academic activity photo" loading="lazy">
         </figure>
-        <figure class="masonry-item reveal-on-scroll">
+        <figure class="masonry-item">
           <img src="photo/1971782590505_.pic_hd.jpg" alt="Academic activity photo" loading="lazy">
         </figure>
-        <figure class="masonry-item reveal-on-scroll">
+        <figure class="masonry-item">
           <img src="photo/2021782591276_.pic_hd.jpg" alt="Academic activity photo" loading="lazy">
         </figure>
       </div>
     </section>
   </main>
-
-  <!-- One-time reveal-on-scroll for timeline items and gallery images -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const revealItems = document.querySelectorAll(".reveal-on-scroll");
-
-      if (!("IntersectionObserver" in window)) {
-        revealItems.forEach(function (item) {
-          item.classList.add("is-visible");
-        });
-        return;
-      }
-
-      const observer = new IntersectionObserver(
-        function (entries, observerInstance) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              observerInstance.unobserve(entry.target);
-            }
-          });
-        },
-        {
-          threshold: 0.12
-        }
-      );
-
-      revealItems.forEach(function (item) {
-        observer.observe(item);
-      });
-    });
-  </script>
 </body>
 </html>

@@ -514,6 +514,13 @@ a:hover {
   transform: translateY(0);
 }
 
+/* Entries already visible on first load appear static (no entrance animation) */
+.publication-reveal.no-initial-animation {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
 /* Hover lift — more specific than .is-visible so it wins, with its own
    immediate transition so the stagger delay doesn't apply to hover. */
 .publication-item:hover {
