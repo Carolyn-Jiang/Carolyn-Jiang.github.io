@@ -468,6 +468,34 @@ a:hover {
   max-width: 980px;
 }
 
+/* One-time staggered entrance for the page sections (transform/opacity only) */
+@keyframes funfactRise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.funfact-page > section {
+  opacity: 0;
+  animation: funfactRise 560ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.funfact-page > section:nth-child(1) { animation-delay: 60ms; }
+.funfact-page > section:nth-child(2) { animation-delay: 140ms; }
+.funfact-page > section:nth-child(3) { animation-delay: 220ms; }
+.funfact-page > section:nth-child(4) { animation-delay: 300ms; }
+.funfact-page > section:nth-child(5) { animation-delay: 380ms; }
+
+@keyframes funfactFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -4px, 0) rotate(-4deg); }
+}
+
 .funfact-page .funfact-hero {
   position: relative;
   margin-top: 1rem;
@@ -490,6 +518,9 @@ a:hover {
   font-size: 1.4rem;
   opacity: 0.55;
   pointer-events: none;
+  transform-origin: center;
+  will-change: transform;
+  animation: funfactFloat 4.5s ease-in-out infinite;
 }
 
 .funfact-page .funfact-kicker {
@@ -550,18 +581,23 @@ a:hover {
   background: #ffffff;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.045);
   cursor: pointer;
+  will-change: transform;
   transition:
-    transform 250ms ease,
-    box-shadow 250ms ease,
-    border-color 250ms ease,
-    background-color 250ms ease;
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 280ms ease,
+    border-color 280ms ease,
+    background-color 280ms ease;
 }
 
 .funfact-page .workflow-step:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
   border-color: var(--soft-blue-border);
   box-shadow: var(--soft-shadow-hover);
   background-color: #ffffff;
+}
+
+.funfact-page .workflow-step:active {
+  transform: translateY(-2px) scale(0.99);
 }
 
 /* Step number badge */
@@ -573,6 +609,11 @@ a:hover {
   color: rgba(47, 95, 143, 0.3);
   font-size: 0.95rem;
   font-weight: 700;
+  transition: color 280ms ease;
+}
+
+.funfact-page .workflow-step:hover::before {
+  color: var(--accent);
 }
 
 .funfact-page .workflow-icon {
@@ -585,6 +626,13 @@ a:hover {
   border-radius: 999px;
   background: rgba(47, 95, 143, 0.08);
   font-size: 1.15rem;
+  transition: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 280ms ease;
+}
+
+/* Icon springs and rotates a touch when its card is hovered */
+.funfact-page .workflow-step:hover .workflow-icon {
+  transform: scale(1.12) rotate(-6deg);
+  background: rgba(47, 95, 143, 0.14);
 }
 
 .funfact-page .workflow-step h2 {
@@ -600,18 +648,21 @@ a:hover {
 }
 
 .funfact-page .workflow-step.is-pulsing {
-  animation: funfactPulse 420ms ease;
+  animation: funfactPulse 460ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes funfactPulse {
   0% {
-    transform: translateY(-3px) scale(1);
+    transform: translateY(-4px) scale(1);
   }
-  45% {
-    transform: translateY(-3px) scale(1.015);
+  40% {
+    transform: translateY(-4px) scale(1.04);
+  }
+  70% {
+    transform: translateY(-4px) scale(0.99);
   }
   100% {
-    transform: translateY(-3px) scale(1);
+    transform: translateY(-4px) scale(1);
   }
 }
 
@@ -645,7 +696,29 @@ a:hover {
   color: var(--accent);
   font-size: 0.9rem;
   font-weight: 600;
-  transition: transform 200ms ease, background-color 200ms ease;
+  transition: transform 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+  /* a soft highlight travels along the chain to suggest the repeating loop */
+  animation: funfactLoopGlow 4.8s ease-in-out infinite;
+}
+
+.funfact-page .loop-chain span:nth-child(1) { animation-delay: 0s; }
+.funfact-page .loop-chain span:nth-child(2) { animation-delay: 0.5s; }
+.funfact-page .loop-chain span:nth-child(3) { animation-delay: 1s; }
+.funfact-page .loop-chain span:nth-child(4) { animation-delay: 1.5s; }
+
+@keyframes funfactLoopGlow {
+  0%, 100% {
+    background: #ffffff;
+    box-shadow: none;
+  }
+  12% {
+    background: rgba(47, 95, 143, 0.1);
+    box-shadow: 0 2px 10px rgba(47, 95, 143, 0.14);
+  }
+  24% {
+    background: #ffffff;
+    box-shadow: none;
+  }
 }
 
 .funfact-page .loop-chain span:hover {
@@ -698,9 +771,14 @@ a:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .funfact-page > section,
+  .funfact-page .funfact-hero::after,
   .funfact-page .workflow-step,
   .funfact-page .workflow-step.is-pulsing,
+  .funfact-page .workflow-icon,
   .funfact-page .loop-chain span {
+    opacity: 1 !important;
+    transform: none !important;
     transition: none !important;
     animation: none !important;
   }
