@@ -463,17 +463,93 @@ a:hover {
   margin: 0;
 }
 
-/* ---------- Fun Fact ---------- */
-.funfact-section {
-  margin-top: 2.5rem;
+/* ---------- Fun Fact (page-scoped: every rule starts with .funfact-page) ---------- */
+.funfact-page {
+  max-width: 980px;
 }
 
-.funfact-card {
+.funfact-page .funfact-hero {
+  position: relative;
+  margin-top: 1rem;
+  padding: 2rem;
+  border: 1px solid rgba(47, 95, 143, 0.18);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at top left, rgba(47, 95, 143, 0.12), transparent 32%),
+    linear-gradient(180deg, #ffffff, #fafafa);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+/* Decorative sparkle/robot stickers in the hero corner (emoji, pure CSS) */
+.funfact-page .funfact-hero::after {
+  content: "🤖✨";
+  position: absolute;
+  top: 1rem;
+  right: 1.15rem;
+  font-size: 1.4rem;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.funfact-page .funfact-kicker {
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.55rem;
+}
+
+.funfact-page .funfact-hero h1 {
+  margin: 0 0 0.75rem;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.funfact-page .funfact-lead {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.funfact-page .funfact-body {
+  margin-top: 1.5rem;
   padding: 1.4rem 1.5rem;
   border: 1px solid var(--border);
-  border-radius: 14px;
-  background: #fafafa;
+  border-radius: 16px;
+  background: #ffffff;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.045);
+}
+
+.funfact-page .funfact-body p {
+  margin: 0;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.funfact-page .funfact-body strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.funfact-page .funfact-workflow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.funfact-page .workflow-step {
+  position: relative;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.045);
+  cursor: pointer;
   transition:
     transform 250ms ease,
     box-shadow 250ms ease,
@@ -481,33 +557,152 @@ a:hover {
     background-color 250ms ease;
 }
 
-.funfact-card:hover {
-  transform: translateY(-1px);
+.funfact-page .workflow-step:hover {
+  transform: translateY(-3px);
   border-color: var(--soft-blue-border);
-  box-shadow: var(--soft-shadow);
+  box-shadow: var(--soft-shadow-hover);
   background-color: #ffffff;
 }
 
-.funfact-card p {
+/* Step number badge */
+.funfact-page .workflow-step::before {
+  content: attr(data-step);
+  position: absolute;
+  top: 0.85rem;
+  right: 1rem;
+  color: rgba(47, 95, 143, 0.3);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.funfact-page .workflow-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  margin-bottom: 0.7rem;
+  border-radius: 999px;
+  background: rgba(47, 95, 143, 0.08);
+  font-size: 1.15rem;
+}
+
+.funfact-page .workflow-step h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.05rem;
+}
+
+.funfact-page .workflow-step p {
   margin: 0;
-  font-size: 1rem;
-  line-height: 1.75;
-  color: var(--text);
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.6;
 }
 
-.funfact-card strong {
+.funfact-page .workflow-step.is-pulsing {
+  animation: funfactPulse 420ms ease;
+}
+
+@keyframes funfactPulse {
+  0% {
+    transform: translateY(-3px) scale(1);
+  }
+  45% {
+    transform: translateY(-3px) scale(1.015);
+  }
+  100% {
+    transform: translateY(-3px) scale(1);
+  }
+}
+
+.funfact-page .funfact-loop {
+  margin-top: 1.75rem;
+  padding: 1.35rem;
+  border-radius: 16px;
+  border: 1px dashed rgba(47, 95, 143, 0.3);
+  background: rgba(47, 95, 143, 0.035);
+}
+
+.funfact-page .funfact-loop h2 {
+  margin: 0 0 0.8rem;
+  font-size: 1.1rem;
+}
+
+.funfact-page .loop-chain {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.funfact-page .loop-chain span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(47, 95, 143, 0.22);
   color: var(--accent);
+  font-size: 0.9rem;
   font-weight: 600;
+  transition: transform 200ms ease, background-color 200ms ease;
 }
 
-@media (max-width: 600px) {
-  .funfact-card {
-    padding: 1.15rem 1.1rem;
+.funfact-page .loop-chain span:hover {
+  transform: translateY(-2px);
+  background: rgba(47, 95, 143, 0.07);
+}
+
+.funfact-page .loop-chain span:not(:last-child)::after {
+  content: "→";
+  margin-left: 0.55rem;
+  color: var(--muted);
+}
+
+.funfact-page .funfact-note {
+  margin-top: 1.75rem;
+  padding: 1rem 1.1rem;
+  border-left: 4px solid var(--accent);
+  background: #fafafa;
+  border-radius: 10px;
+}
+
+.funfact-page .funfact-note p {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  .funfact-page .funfact-hero {
+    padding: 1.35rem;
   }
 
-  .funfact-card p {
-    font-size: 0.96rem;
-    line-height: 1.65;
+  .funfact-page .funfact-hero h1 {
+    font-size: 1.65rem;
+  }
+
+  .funfact-page .funfact-workflow {
+    grid-template-columns: 1fr;
+  }
+
+  .funfact-page .loop-chain {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .funfact-page .loop-chain span:not(:last-child)::after {
+    content: "";
+    margin-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .funfact-page .workflow-step,
+  .funfact-page .workflow-step.is-pulsing,
+  .funfact-page .loop-chain span {
+    transition: none !important;
+    animation: none !important;
   }
 }
 

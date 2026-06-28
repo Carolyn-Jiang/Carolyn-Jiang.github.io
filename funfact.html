@@ -22,16 +22,81 @@
     </nav>
   </header>
 
-  <main class="container">
-    <h1 class="page-title">Fun Fact</h1>
+  <main class="container funfact-page">
+    <section class="funfact-hero">
+      <div class="funfact-kicker">Behind the scenes</div>
+      <h1>How this website was made</h1>
+      <p class="funfact-lead">
+        This website was built through an iterative human–AI collaboration —
+        because apparently even a personal academic homepage now needs a small
+        production pipeline.
+      </p>
+    </section>
 
-    <section class="funfact-section">
-      <article class="funfact-card">
-        <p>
-          This website was built through an iterative human–AI collaboration. We started with a simple GitHub Pages skeleton, then developed each page independently by progressively adding content, refining the layout, and improving the information hierarchy. Once the static version was complete, we shifted our focus to user experience, reviewing each page to identify opportunities for improvement before introducing subtle interactions and animations one feature at a time. Throughout the process, I defined the overall design goals, page structure, and interaction requirements, supplied all research content and media, GPT-5.5 analyzed the requirements and produced detailed implementation guides based on established frontend design patterns, and Claude Code implemented the corresponding HTML, CSS, and JavaScript. Each iteration followed the same loop: <strong>design → implementation → visual inspection → refinement</strong>, gradually evolving the website from a minimal academic homepage into a polished, interactive personal website.
-        </p>
+    <section class="funfact-body" aria-label="The full story">
+      <p>
+        This website was built through an iterative human–AI collaboration. We started with a simple GitHub Pages skeleton, then developed each page independently by progressively adding content, refining the layout, and improving the information hierarchy. Once the static version was complete, we shifted our focus to user experience, reviewing each page to identify opportunities for improvement before introducing subtle interactions and animations one feature at a time. Throughout the process, I defined the overall design goals, page structure, and interaction requirements, supplied all research content and media, GPT-5.5 analyzed the requirements and produced detailed implementation guides based on established frontend design patterns, and Claude Code implemented the corresponding HTML, CSS, and JavaScript. Each iteration followed the same loop: <strong>design → implementation → visual inspection → refinement</strong>, gradually evolving the website from a minimal academic homepage into a polished, interactive personal website.
+      </p>
+    </section>
+
+    <section class="funfact-workflow" aria-label="Human AI collaboration workflow">
+      <article class="workflow-step" data-step="01">
+        <span class="workflow-icon" aria-hidden="true">🧭</span>
+        <h2>Human direction</h2>
+        <p>I defined the design goals, page structure, interaction requirements, and supplied all the research content and media.</p>
+      </article>
+
+      <article class="workflow-step" data-step="02">
+        <span class="workflow-icon" aria-hidden="true">🧠</span>
+        <h2>GPT-5.5 planning</h2>
+        <p>GPT-5.5 analyzed the requirements, weighed design trade-offs, and wrote step-by-step implementation guides based on established frontend patterns.</p>
+      </article>
+
+      <article class="workflow-step" data-step="03">
+        <span class="workflow-icon" aria-hidden="true">⌨️</span>
+        <h2>Claude Code implementation</h2>
+        <p>Claude Code translated the approved guides into HTML, CSS, and JavaScript, then committed the changes to the GitHub Pages repository.</p>
+      </article>
+
+      <article class="workflow-step" data-step="04">
+        <span class="workflow-icon" aria-hidden="true">👀</span>
+        <h2>Human review</h2>
+        <p>After each update, I inspected the live website, noted what felt right or wrong, and refined the next request.</p>
       </article>
     </section>
+
+    <section class="funfact-loop" aria-label="The iteration loop">
+      <h2>The loop, every time</h2>
+      <div class="loop-chain">
+        <span>Design</span>
+        <span>Implementation</span>
+        <span>Visual inspection</span>
+        <span>Refinement</span>
+      </div>
+    </section>
+
+    <section class="funfact-note">
+      <p>
+        Home, Publications, and Academic Service were designed through
+        human-guided iteration. This Fun Fact page's page design and animation
+        effects was designed with fully freedom by AI.
+      </p>
+    </section>
   </main>
+
+  <!-- Lightweight, page-scoped: click a workflow card for a brief pulse. -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const cards = document.querySelectorAll(".funfact-page .workflow-step");
+
+      cards.forEach(function (card) {
+        card.addEventListener("click", function () {
+          card.classList.remove("is-pulsing");
+          void card.offsetWidth;
+          card.classList.add("is-pulsing");
+        });
+      });
+    });
+  </script>
 </body>
 </html>
