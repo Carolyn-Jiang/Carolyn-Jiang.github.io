@@ -28,7 +28,7 @@
     <section class="publication-section">
       <h2>Agent Framework</h2>
 
-      <article class="publication-item publication-reveal" style="--reveal-delay: 0ms;">
+      <article class="publication-item publication-scroll-motion">
         <div class="publication-meta">
           <div class="publication-year">11/2023</div>
         </div>
@@ -47,7 +47,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-reveal" style="--reveal-delay: 70ms;">
+      <article class="publication-item publication-scroll-motion">
         <div class="publication-meta">
           <div class="publication-year">12/2024</div>
         </div>
@@ -61,7 +61,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-reveal" style="--reveal-delay: 140ms;">
+      <article class="publication-item publication-scroll-motion">
         <div class="publication-meta">
           <div class="publication-year">02/2026</div>
         </div>
@@ -80,7 +80,7 @@
     <section class="publication-section">
       <h2>Model</h2>
 
-      <article class="publication-item publication-reveal" style="--reveal-delay: 0ms;">
+      <article class="publication-item publication-scroll-motion">
         <div class="publication-meta">
           <div class="publication-year">05/2025</div>
         </div>
@@ -94,7 +94,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-reveal" style="--reveal-delay: 70ms;">
+      <article class="publication-item publication-scroll-motion">
         <div class="publication-meta">
           <div class="publication-year">08/2026</div>
         </div>
@@ -107,7 +107,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-reveal" style="--reveal-delay: 140ms;">
+      <article class="publication-item publication-scroll-motion">
         <div class="publication-meta">
           <div class="publication-year">07/2026</div>
         </div>
@@ -120,7 +120,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-reveal" style="--reveal-delay: 210ms;">
+      <article class="publication-item publication-scroll-motion">
         <div class="publication-meta">
           <div class="publication-year">05/2026</div>
         </div>
@@ -138,7 +138,7 @@
     <section class="publication-section">
       <h2>Benchmark</h2>
 
-      <article class="publication-item publication-reveal" style="--reveal-delay: 0ms;">
+      <article class="publication-item publication-scroll-motion">
         <div class="publication-meta">
           <div class="publication-year">12/2024</div>
         </div>
@@ -154,7 +154,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-reveal" style="--reveal-delay: 70ms;">
+      <article class="publication-item publication-scroll-motion">
         <div class="publication-meta">
           <div class="publication-year">08/2025</div>
         </div>
@@ -169,7 +169,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-reveal" style="--reveal-delay: 140ms;">
+      <article class="publication-item publication-scroll-motion">
         <div class="publication-meta">
           <div class="publication-year">07/2026</div>
         </div>
@@ -184,7 +184,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-reveal" style="--reveal-delay: 210ms;">
+      <article class="publication-item publication-scroll-motion">
         <div class="publication-meta">
           <div class="publication-year">07/2026</div>
         </div>
@@ -199,7 +199,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-reveal" style="--reveal-delay: 280ms;">
+      <article class="publication-item publication-scroll-motion">
         <div class="publication-meta">
           <div class="publication-year">07/2026</div>
         </div>
@@ -213,7 +213,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-reveal" style="--reveal-delay: 280ms;">
+      <article class="publication-item publication-scroll-motion">
         <div class="publication-meta">
           <div class="publication-year">04/2026</div>
         </div>
@@ -227,7 +227,7 @@
         </div>
       </article>
 
-      <article class="publication-item publication-reveal" style="--reveal-delay: 280ms;">
+      <article class="publication-item publication-scroll-motion">
         <div class="publication-meta">
           <div class="publication-year">05/2026</div>
         </div>
@@ -242,58 +242,60 @@
     </section>
   </main>
 
-  <!-- Reversible scroll-linked parallax: each entry drifts subtly as it moves
-       through the viewport, reversing when scrolling back. Content is always
-       visible; nothing is hidden and the effect is not one-time. -->
+  <!-- Safe reversible scroll motion: entries are always visible (no opacity,
+       no hiding). Each entry shifts a few px as it passes through the viewport
+       and the motion reverses on scroll-up. Updates every scroll, not one-time. -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      var items = Array.prototype.slice.call(
-        document.querySelectorAll(".publication-reveal")
-      );
+      const items = Array.from(document.querySelectorAll(".publication-scroll-motion"));
+
       if (!items.length) return;
 
-      // Respect reduced-motion: keep entries perfectly static.
-      if (window.matchMedia &&
-          window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         items.forEach(function (item) {
-          item.style.setProperty("--parallax", "0px");
+          item.style.transform = "translate3d(0, 0, 0)";
         });
         return;
       }
 
-      var AMPLITUDE = 16; // total drift range in px (subtle: about +/- 8px)
-      var ticking = false;
+      let ticking = false;
 
-      function update() {
+      function updateScrollMotion() {
+        const viewportHeight = window.innerHeight;
+
+        items.forEach(function (item) {
+          const rect = item.getBoundingClientRect();
+
+          if (rect.bottom < -100 || rect.top > viewportHeight + 100) {
+            item.style.transform = "translate3d(0, 0, 0)";
+            return;
+          }
+
+          const itemCenter = rect.top + rect.height / 2;
+          const viewportCenter = viewportHeight / 2;
+          const distance = itemCenter - viewportCenter;
+          const normalized = distance / viewportHeight;
+
+          const maxOffset = 8;
+          const offset = -normalized * maxOffset;
+
+          item.style.transform = "translate3d(0, " + offset.toFixed(2) + "px, 0)";
+        });
+
         ticking = false;
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        for (var i = 0; i < items.length; i++) {
-          var rect = items[i].getBoundingClientRect();
-          // Skip entries far outside the viewport for performance.
-          if (rect.bottom < -vh || rect.top > vh * 2) continue;
-          var center = rect.top + rect.height / 2;
-          // progress: 0 when the entry's center is at the bottom of the
-          // viewport, 1 when at the top.
-          var progress = (vh - center) / vh;
-          if (progress < 0) progress = 0;
-          if (progress > 1) progress = 1;
-          // Centered so mid-viewport content sits near its natural position;
-          // scrolling down drifts entries upward, scrolling up reverses it.
-          var shift = (0.5 - progress) * AMPLITUDE;
-          items[i].style.setProperty("--parallax", shift.toFixed(2) + "px");
-        }
       }
 
-      function onScroll() {
+      function requestUpdate() {
         if (!ticking) {
+          window.requestAnimationFrame(updateScrollMotion);
           ticking = true;
-          window.requestAnimationFrame(update);
         }
       }
 
-      update(); // set initial positions without animating
-      window.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("resize", onScroll, { passive: true });
+      updateScrollMotion();
+
+      window.addEventListener("scroll", requestUpdate, { passive: true });
+      window.addEventListener("resize", requestUpdate);
     });
   </script>
 </body>

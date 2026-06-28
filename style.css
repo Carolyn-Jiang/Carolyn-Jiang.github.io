@@ -488,25 +488,24 @@ a:hover {
   border-bottom: none;
 }
 
-/* Subtle hover polish (no transform transition, so the scroll-linked
-   parallax tracks the scroll directly without lag). */
 .publication-item {
   transition:
     background-color 250ms ease,
     box-shadow 250ms ease;
 }
 
-/* Scroll-linked parallax: content stays fully visible; JS updates --parallax
-   on every scroll so the motion is reversible (never opacity 0, never one-time). */
-.publication-reveal {
-  transform: translateY(var(--parallax, 0px));
+/* Safe scroll motion: entries are ALWAYS visible. No opacity, no hiding —
+   JS only nudges the transform a few px on scroll, reversibly. If JS never
+   runs, the transform stays a no-op and entries render normally. */
+.publication-scroll-motion {
+  transform: translate3d(0, 0, 0);
   will-change: transform;
 }
 
-/* Hover lift — combined with the current parallax offset so both coexist.
-   More specific than .publication-reveal, so it wins while hovering. */
-.publication-item:hover {
-  transform: translateY(calc(var(--parallax, 0px) - 1px));
+@media (prefers-reduced-motion: reduce) {
+  .publication-scroll-motion {
+    transform: none !important;
+  }
 }
 
 .publication-meta {
@@ -1031,8 +1030,7 @@ a:hover {
   }
 
   /* Keep reveal content visible without motion */
-  .reveal-on-scroll,
-  .publication-reveal {
+  .reveal-on-scroll {
     opacity: 1;
     transform: none;
     transition: none;
