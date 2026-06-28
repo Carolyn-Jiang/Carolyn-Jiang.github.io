@@ -248,26 +248,57 @@ a:hover {
   line-height: 1.5;
 }
 
-/* Research interest tags */
+/* Research interest tags — pill chips */
 .research-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
-  margin-top: 0.85rem;
-  margin-bottom: 1.4rem;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+  margin-bottom: 1.5rem;
+  max-width: 680px;
 }
 
 .research-tag {
   display: inline-flex;
   align-items: center;
-  padding: 0.28rem 0.62rem;
-  border: 1px solid rgba(47, 95, 143, 0.22);
+  padding: 0.34rem 0.72rem;
+  border: 1px solid rgba(47, 95, 143, 0.24);
   border-radius: 999px;
-  background: rgba(47, 95, 143, 0.045);
+  background: linear-gradient(
+    180deg,
+    rgba(47, 95, 143, 0.075),
+    rgba(47, 95, 143, 0.035)
+  );
   color: #2f5f8f;
   font-size: 0.82rem;
-  line-height: 1.3;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
   white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.035);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+
+.research-tag:hover {
+  transform: translateY(-1px);
+  border-color: rgba(47, 95, 143, 0.42);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.065);
+  background: rgba(47, 95, 143, 0.075);
+}
+
+@media (max-width: 600px) {
+  .research-tags {
+    gap: 0.4rem;
+  }
+
+  .research-tag {
+    font-size: 0.78rem;
+    padding: 0.3rem 0.62rem;
+  }
 }
 
 .bio-section p {
@@ -631,16 +662,16 @@ a:hover {
 }
 
 /* ---------- Academic Service: vertical timeline ---------- */
-.service-timeline-section {
-  margin-top: 2.5rem;
-  margin-bottom: 3rem;
+.timeline-section {
+  margin-top: 2.75rem;
+  margin-bottom: 3.5rem;
 }
 
 .timeline {
   position: relative;
-  max-width: 960px;
+  max-width: 980px;
   margin: 0 auto;
-  padding: 1rem 0 0;
+  padding: 0.5rem 0 1rem;
 }
 
 .timeline::before {
@@ -653,95 +684,127 @@ a:hover {
   transform: translateX(-50%);
   background: linear-gradient(
     to bottom,
-    transparent,
-    rgba(47, 95, 143, 0.25),
-    rgba(47, 95, 143, 0.25),
-    transparent
+    transparent 0%,
+    rgba(47, 95, 143, 0.18) 4%,
+    rgba(47, 95, 143, 0.30) 50%,
+    rgba(47, 95, 143, 0.18) 96%,
+    transparent 100%
   );
 }
 
 .timeline-year {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   width: fit-content;
-  margin: 1.4rem auto 1rem;
-  padding: 0.32rem 0.85rem;
-  border: 1px solid rgba(47, 95, 143, 0.25);
+  margin: 1.6rem auto 1.25rem;
+  padding: 0.36rem 0.95rem;
+  border: 1px solid rgba(47, 95, 143, 0.28);
   border-radius: 999px;
   background: #ffffff;
   color: #2f5f8f;
-  font-weight: 700;
   font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.045);
 }
 
 .timeline-item {
   position: relative;
   width: 50%;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.35rem;
 }
 
 .timeline-left {
   left: 0;
-  padding-right: 2rem;
+  padding-right: 2.2rem;
+  text-align: right;
 }
 
 .timeline-right {
   left: 50%;
-  padding-left: 2rem;
+  padding-left: 2.2rem;
+  text-align: left;
 }
 
 .timeline-item::before {
   content: "";
   position: absolute;
-  top: 1.1rem;
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
+  top: 1.25rem;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
   background: #2f5f8f;
-  box-shadow: 0 0 0 4px rgba(47, 95, 143, 0.12);
-  z-index: 2;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 4px rgba(47, 95, 143, 0.13);
+  z-index: 3;
 }
 
 .timeline-left::before {
-  right: -5px;
+  right: -8px;
 }
 
 .timeline-right::before {
-  left: -5px;
+  left: -8px;
 }
 
 .timeline-card {
-  padding: 0.95rem 1rem;
-  border: 1px solid #e5e5e5;
-  border-radius: 12px;
+  position: relative;
+  padding: 1rem 1.05rem;
+  border: 1px solid #e5e8ec;
+  border-radius: 14px;
   background: #ffffff;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.045);
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease,
+    border-color 250ms ease;
+}
+
+.timeline-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(47, 95, 143, 0.28);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+}
+
+.timeline-type {
+  display: inline-flex;
+  margin-bottom: 0.45rem;
+  padding: 0.18rem 0.52rem;
+  border-radius: 999px;
+  background: rgba(47, 95, 143, 0.075);
+  color: #2f5f8f;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .timeline-card h3 {
   margin: 0 0 0.45rem;
-  font-size: 1rem;
   color: #222;
+  font-size: 1rem;
+  line-height: 1.35;
 }
 
 .timeline-card p {
   margin: 0.25rem 0;
+  color: #333;
   line-height: 1.55;
 }
 
 .timeline-card ul {
-  margin: 0.35rem 0 0;
+  margin: 0.45rem 0 0;
   padding-left: 1.1rem;
+}
+
+.timeline-left .timeline-card ul {
+  direction: ltr;
+  display: inline-block;
+  text-align: left;
 }
 
 .timeline-card li {
   margin-bottom: 0.25rem;
   line-height: 1.5;
-}
-
-.timeline-meta {
-  color: #666;
-  font-size: 0.9rem;
 }
 
 /* One-time reveal on scroll */
@@ -757,32 +820,37 @@ a:hover {
 }
 
 @media (max-width: 800px) {
+  .timeline {
+    padding-left: 0.5rem;
+  }
+
   .timeline::before {
-    left: 10px;
+    left: 12px;
   }
 
   .timeline-year {
     margin-left: 0;
+    margin-right: auto;
   }
 
-  .timeline-item {
-    width: 100%;
-    left: 0;
-    padding-left: 2rem;
-    padding-right: 0;
-  }
-
+  .timeline-item,
   .timeline-left,
   .timeline-right {
+    width: 100%;
     left: 0;
-    padding-left: 2rem;
+    padding-left: 2.2rem;
     padding-right: 0;
+    text-align: left;
   }
 
   .timeline-left::before,
   .timeline-right::before {
-    left: 5px;
+    left: 4px;
     right: auto;
+  }
+
+  .timeline-left .timeline-card ul {
+    display: block;
   }
 }
 
@@ -812,8 +880,7 @@ a:hover {
   height: auto;
   display: block;
   border-radius: 12px;
-  cursor: zoom-in;
-  transition: transform 300ms ease, box-shadow 300ms ease;
+  transition: transform 300ms ease;
   will-change: transform;
 }
 
